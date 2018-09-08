@@ -1,0 +1,1079 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Interface;
+import My_Code.DBconnect;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import net.proteanit.sql.DbUtils;
+import Validation.Accounts;
+import java.awt.Color;
+import java.awt.event.KeyEvent;
+import java.sql.SQLException;
+import java.time.Clock;
+import javax.swing.BorderFactory;
+import net.sf.jasperreports.engine.JRException;
+import static rr.Ireport.MyReport;
+
+/**
+ *
+ * @author MAXMO
+ */
+public class Account_Home extends javax.swing.JInternalFrame {
+    Connection ct=null;
+    PreparedStatement ps = null;
+    ResultSet rs = null;
+
+    public static String x1;
+    public static String x2;
+    public static String x3;
+    public String n;
+    String cid1;
+    Double s4;
+    /**
+     * Creates new form Account_Home
+     */
+    public Account_Home() {
+        
+        initComponents();
+        ct= DBconnect.connect();
+        tabled();
+        tabled1();
+        fillcombo1();
+        fillcombo2();
+    }
+    
+    public boolean dateValidation(){
+        if(((JTextField)date.getDateEditor().getUiComponent()).getText().isEmpty())
+        {
+            JOptionPane.showMessageDialog(null, "Enter Date");
+            return false;
+        } else {
+            return true;
+        }
+    }
+    
+    
+    
+    public void fillcombo1 () {
+         String oh1 = cid.getSelectedItem().toString();
+        
+        try {
+                        
+             String sql = "SELECT cashId FROM cashmng ";
+            ps = ct.prepareStatement ( sql );
+            rs = ps.executeQuery ();
+                        
+            while ( rs.next ()) {
+                
+                String oh = rs.getString ( "cashId" );
+                Boolean exists = false;
+                for (int index = 0; index < cid.getItemCount() && !exists; index++) {
+                    if (oh.equals(cid.getItemAt(index))) {
+                        exists = true;
+                    }
+                }
+                    if (!exists) {
+                        cid.addItem ( oh );
+                    }
+            }            //itemCount();
+            
+            
+        }
+        
+        
+        
+        catch ( Exception e ) {
+            
+            System.out.println ( e );
+            
+            JOptionPane.showMessageDialog ( null, "Records are incomplete. \nConnot add this records." );
+            
+        }
+        
+    }
+    
+    public void clear(){
+        other.setText ( " " );
+        chq.setText(" ");
+        cash.setText(" ");
+        ((JTextField)date.getDateEditor().getUiComponent()).setText(" ") ;
+        }
+    
+    public void fillcombo2 () {
+         String oh1 = tcid.getSelectedItem().toString();
+        
+        try {
+                        
+            
+            //itemCount();
+            String sql = "SELECT cashId FROM cash ";
+            ps = ct.prepareStatement ( sql );
+            rs = ps.executeQuery ();
+                        
+            while ( rs.next ()) {
+                
+                String oh = rs.getString ( "cashId" );
+                Boolean exists = false;
+                for (int index = 0; index < tcid.getItemCount() && !exists; index++) {
+                    if (oh.equals(tcid.getItemAt(index))) {
+                        exists = true;
+                    }
+                }
+                    if (!exists) {
+                        tcid.addItem ( oh );
+                    }
+            
+        }
+        
+        }
+        
+        catch ( Exception e ) {
+            
+            System.out.println ( e );
+            
+            JOptionPane.showMessageDialog ( null, "Records are incomplete. \nConnot add this records." );
+            
+        }
+        
+    }
+    
+    public void tabled(){
+        try{
+            String Se= "SELECT cashId,date,chqPay, cashBillPay,other FROM cashmng";
+            ps = ct.prepareStatement(Se);
+            rs = ps.executeQuery();
+            
+            jTable1.setModel(DbUtils.resultSetToTableModel(rs));
+        }catch (Exception e){
+            System.out.println(e);
+        }
+    }
+    
+    public void tabled1(){
+        try{
+            String Se1= "SELECT cashId,date,amt,type FROM cash";
+            ps = ct.prepareStatement(Se1);
+            rs = ps.executeQuery();
+            
+            jTable2.setModel(DbUtils.resultSetToTableModel(rs));
+        }catch (Exception e){
+            System.out.println(e);
+        }
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel2 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        Customer = new javax.swing.JButton();
+        Register = new javax.swing.JButton();
+        Logout = new javax.swing.JButton();
+        Register1 = new javax.swing.JButton();
+        Register2 = new javax.swing.JButton();
+        Register3 = new javax.swing.JButton();
+        IHome = new javax.swing.JDesktopPane();
+        jPanel1 = new javax.swing.JPanel();
+        jSeparator5 = new javax.swing.JSeparator();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jLabel10 = new javax.swing.JLabel();
+        cid = new javax.swing.JComboBox<>();
+        remove1 = new javax.swing.JButton();
+        jLabel18 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        other = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        date = new com.toedter.calendar.JDateChooser();
+        add = new javax.swing.JButton();
+        clear1 = new javax.swing.JButton();
+        jLabel30 = new javax.swing.JLabel();
+        jButton8 = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jLabel8 = new javax.swing.JLabel();
+        tcid = new javax.swing.JComboBox<>();
+        id = new javax.swing.JButton();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel31 = new javax.swing.JLabel();
+        totSal = new javax.swing.JLabel();
+        jButton7 = new javax.swing.JButton();
+        jLabel32 = new javax.swing.JLabel();
+        cash = new javax.swing.JLabel();
+        chq = new javax.swing.JLabel();
+        add1 = new javax.swing.JButton();
+        remove2 = new javax.swing.JButton();
+
+        setBorder(null);
+        setPreferredSize(new java.awt.Dimension(1080, 725));
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel3.setBackground(new java.awt.Color(85, 55, 118));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        Customer.setBackground(new java.awt.Color(85, 55, 118));
+        Customer.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        Customer.setForeground(new java.awt.Color(255, 255, 255));
+        Customer.setText("Cash Management");
+        Customer.setAutoscrolls(true);
+        Customer.setBorder(null);
+        Customer.setBorderPainted(false);
+        Customer.setFocusable(false);
+        Customer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CustomerActionPerformed(evt);
+            }
+        });
+        jPanel3.add(Customer, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 40));
+
+        Register.setBackground(new java.awt.Color(85, 55, 118));
+        Register.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        Register.setForeground(new java.awt.Color(255, 255, 255));
+        Register.setText("Exchanges");
+        Register.setAutoscrolls(true);
+        Register.setBorder(null);
+        Register.setBorderPainted(false);
+        Register.setFocusable(false);
+        Register.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RegisterActionPerformed(evt);
+            }
+        });
+        jPanel3.add(Register, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 0, 230, 40));
+
+        Logout.setBackground(new java.awt.Color(85, 55, 118));
+        Logout.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        Logout.setForeground(new java.awt.Color(255, 255, 255));
+        Logout.setText("Logout");
+        Logout.setAutoscrolls(true);
+        Logout.setBorder(null);
+        Logout.setBorderPainted(false);
+        Logout.setFocusable(false);
+        Logout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LogoutActionPerformed(evt);
+            }
+        });
+        jPanel3.add(Logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 0, 111, 40));
+
+        Register1.setBackground(new java.awt.Color(85, 55, 118));
+        Register1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        Register1.setForeground(new java.awt.Color(255, 255, 255));
+        Register1.setText("Add Account");
+        Register1.setAutoscrolls(true);
+        Register1.setBorder(null);
+        Register1.setBorderPainted(false);
+        Register1.setFocusable(false);
+        Register1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Register1ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(Register1, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 0, 170, 40));
+
+        Register2.setBackground(new java.awt.Color(85, 55, 118));
+        Register2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        Register2.setForeground(new java.awt.Color(255, 255, 255));
+        Register2.setText("Bank Deposits");
+        Register2.setAutoscrolls(true);
+        Register2.setBorder(null);
+        Register2.setBorderPainted(false);
+        Register2.setFocusable(false);
+        Register2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Register2ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(Register2, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 0, 170, 40));
+
+        Register3.setBackground(new java.awt.Color(85, 55, 118));
+        Register3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        Register3.setForeground(new java.awt.Color(255, 255, 255));
+        Register3.setText("Overheads");
+        Register3.setAutoscrolls(true);
+        Register3.setBorder(null);
+        Register3.setBorderPainted(false);
+        Register3.setFocusable(false);
+        Register3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Register3ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(Register3, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 0, 200, 40));
+
+        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1080, -1));
+
+        jPanel1.setBackground(new java.awt.Color(215, 215, 230));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1080, 640));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel1.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 480, 200, 0));
+
+        jLabel22.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel22.setText("Cash Management");
+        jPanel1.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 350, 60));
+
+        jLabel21.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel21.setText("Cash-outs");
+        jPanel1.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 269, 40));
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel2.setText("Cashouts");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 30, -1, -1));
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 60, 450, 170));
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel10.setText("CashId");
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 250, -1, -1));
+
+        cid.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        cid.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select cash ID" }));
+        cid.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cidActionPerformed(evt);
+            }
+        });
+        jPanel1.add(cid, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 240, 140, 40));
+
+        remove1.setBackground(new java.awt.Color(85, 55, 118));
+        remove1.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        remove1.setForeground(new java.awt.Color(255, 255, 255));
+        remove1.setText("Remove");
+        remove1.setFocusable(false);
+        remove1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                remove1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(remove1, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 240, 110, 40));
+
+        jLabel18.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel18.setText("Cheque Payments");
+        jPanel1.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, -1, -1));
+
+        jButton2.setBackground(new java.awt.Color(85, 55, 118));
+        jButton2.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 100, 30, 30));
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel5.setText("Cash Bill Payments");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, -1, -1));
+
+        jButton1.setBackground(new java.awt.Color(85, 55, 118));
+        jButton1.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 160, 30, 30));
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel6.setText("Other");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, -1, -1));
+
+        other.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        other.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                otherActionPerformed(evt);
+            }
+        });
+        other.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                otherKeyTyped(evt);
+            }
+        });
+        jPanel1.add(other, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 220, 140, 30));
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel3.setText("Date");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, -1, -1));
+
+        date.setDateFormatString("yyyy-MM-dd");
+        jPanel1.add(date, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 280, 140, 30));
+
+        add.setBackground(new java.awt.Color(85, 55, 118));
+        add.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        add.setForeground(new java.awt.Color(255, 255, 255));
+        add.setText("Add");
+        add.setFocusable(false);
+        add.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addActionPerformed(evt);
+            }
+        });
+        jPanel1.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 330, 110, 40));
+
+        clear1.setBackground(new java.awt.Color(85, 55, 118));
+        clear1.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        clear1.setForeground(new java.awt.Color(255, 255, 255));
+        clear1.setText("Clear");
+        clear1.setFocusable(false);
+        clear1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clear1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(clear1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 330, 110, 40));
+
+        jLabel30.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel30.setText("Total Cashouts");
+        jPanel1.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 400, -1, 20));
+
+        jButton8.setBackground(new java.awt.Color(85, 55, 118));
+        jButton8.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        jButton8.setForeground(new java.awt.Color(255, 255, 255));
+        jButton8.setText("Add");
+        jButton8.setFocusable(false);
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 390, 170, 40));
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel9.setText("Total values of Cashout & in");
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 330, -1, 20));
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable2);
+
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 360, -1, 170));
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel8.setText("CashId");
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 550, -1, -1));
+
+        tcid.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        tcid.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select ID" }));
+        tcid.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tcidActionPerformed(evt);
+            }
+        });
+        jPanel1.add(tcid, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 540, 110, 40));
+
+        id.setBackground(new java.awt.Color(85, 55, 118));
+        id.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        id.setForeground(new java.awt.Color(255, 255, 255));
+        id.setText("Remove");
+        id.setFocusable(false);
+        id.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                idActionPerformed(evt);
+            }
+        });
+        jPanel1.add(id, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 540, 110, 40));
+
+        jLabel23.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel23.setText("Cash-ins");
+        jPanel1.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 440, 269, 40));
+
+        jLabel31.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel31.setText("Total sales");
+        jPanel1.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 500, -1, -1));
+
+        totSal.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jPanel1.add(totSal, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 490, 160, 30));
+
+        jButton7.setBackground(new java.awt.Color(85, 55, 118));
+        jButton7.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        jButton7.setForeground(new java.awt.Color(255, 255, 255));
+        jButton7.setText("Add");
+        jButton7.setFocusable(false);
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 550, 170, 40));
+
+        jLabel32.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel32.setText("Total Cashin");
+        jPanel1.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 560, -1, 20));
+
+        cash.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jPanel1.add(cash, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 160, 100, 30));
+
+        chq.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jPanel1.add(chq, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 100, 100, 30));
+
+        add1.setBackground(new java.awt.Color(85, 55, 118));
+        add1.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        add1.setForeground(new java.awt.Color(255, 255, 255));
+        add1.setText("Update");
+        add1.setFocusable(false);
+        add1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                add1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(add1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 330, 110, 40));
+
+        remove2.setBackground(new java.awt.Color(85, 55, 118));
+        remove2.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        remove2.setForeground(new java.awt.Color(255, 255, 255));
+        remove2.setText("View Report");
+        remove2.setFocusable(false);
+        remove2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                remove2ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(remove2, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 590, -1, -1));
+
+        IHome.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        javax.swing.GroupLayout IHomeLayout = new javax.swing.GroupLayout(IHome);
+        IHome.setLayout(IHomeLayout);
+        IHomeLayout.setHorizontalGroup(
+            IHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        IHomeLayout.setVerticalGroup(
+            IHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE)
+        );
+
+        jPanel2.add(IHome, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 1080, 650));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void CustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CustomerActionPerformed
+
+        IHome.removeAll ();
+        cashManagement CO = new cashManagement ();
+        IHome.add ( CO ).setVisible ( true );
+    }//GEN-LAST:event_CustomerActionPerformed
+
+    private void RegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterActionPerformed
+
+        IHome.removeAll ();
+        pharmacymng PM = new pharmacymng ();
+        IHome.add ( PM ).setVisible ( true );
+    }//GEN-LAST:event_RegisterActionPerformed
+
+    private void LogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogoutActionPerformed
+
+        Home_Page1 HP1 = new Home_Page1 ();
+        HP1.setVisible ( true );
+        this.dispose ();
+    }//GEN-LAST:event_LogoutActionPerformed
+
+    private void Register1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Register1ActionPerformed
+        
+        IHome.removeAll ();
+        bankacc b = new bankacc ();
+        IHome.add ( b ).setVisible ( true );
+    }//GEN-LAST:event_Register1ActionPerformed
+
+    private void Register2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Register2ActionPerformed
+        
+        IHome.removeAll ();
+        bank B = new bank ();
+        IHome.add ( B ).setVisible ( true );
+        
+    }//GEN-LAST:event_Register2ActionPerformed
+    
+    private void Register3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Register3ActionPerformed
+        // TODO add your handling code here:
+        IHome.removeAll ();
+        overhds o = new overhds ();
+        IHome.add ( o ).setVisible ( true );
+    }//GEN-LAST:event_Register3ActionPerformed
+
+    private void cidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cidActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cidActionPerformed
+
+    private void remove1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_remove1ActionPerformed
+        // TODO add your han
+        int x = JOptionPane.showConfirmDialog ( null, "Do you really want to delete?" );
+
+        if ( x==0 ) {
+
+            String ID = cid.getSelectedItem().toString();
+
+            try {
+
+                String sql = "DELETE FROM cashmng WHERE cashId = '"+ ID+"' ";
+                ps = ct.prepareStatement ( sql );
+                ps.execute ();
+
+                //                sql = "DELETE FROM login WHERE Username = '"+ sid +"' ";
+                //                ps = ct.prepareStatement ( sql );
+                //                ps.execute ();
+
+                cid.removeItem(ID);
+                JOptionPane.showMessageDialog ( null, "Delete Succesful" );
+
+                tabled ();
+
+            }
+
+            catch ( Exception e ) {
+
+                JOptionPane.showMessageDialog ( null, "Invalid Records. \nConnot delete." );
+
+                System.out.println ( e );
+
+            }
+        }
+    }//GEN-LAST:event_remove1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        Date d = new Date ();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String da = sdf.format(d);
+
+        try {
+
+            String sql = "SELECT SUM(amount) from supplier_payment where payDate='"+da+"' and type='cheque' ";
+            ps = ct.prepareStatement (sql);
+            rs= ps.executeQuery();
+
+            while(rs.next()){
+                String chqt = rs.getString(1);
+                if(rs.getString("SUM(amount)")==null){
+                    chq.setText(0.0+"");
+                }
+                else{
+                    chq.setText(chqt);
+                }
+                
+            }
+            
+            } catch ( Exception e ) {
+
+                JOptionPane.showMessageDialog ( null, "Invalid Records." );
+
+                System.out.println ( e );
+
+            }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        Accounts a = new Accounts();
+        String n = chq.getText();
+        //System.out.println(n);
+        if(!a.ChqPayValidation(n)){
+            
+            cash.setText("");
+            //JOptionPane.showMessageDialog(null, "Fill Cheque Payments", "Error", JOptionPane.INFORMATION_MESSAGE);
+            
+                }
+        
+        System.out.println(n);
+        //double h = Double.parseDouble(n);
+        
+        Date d = new Date ();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String da = sdf.format(d);
+        System.out.println(da);
+        try{
+            String sql1= "Select SUM(amount) from supplier_payment where payDate='"+da+"' and type='cash'";
+            ps = ct.prepareStatement(sql1);
+            rs = ps.executeQuery();
+
+            while(rs.next()){
+                String casht = rs.getString(1);
+                if(rs.getString("SUM(amount)")==null){
+                    cash.setText(0.0+"");
+                }
+                else{
+                    cash.setText(casht);
+                }
+            }
+            
+            //cash.setText(cashtot+"");
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void otherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_otherActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_otherActionPerformed
+
+    private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
+        // TODO add your handling code here:
+        Accounts a = new Accounts();
+
+       
+            String chq1=chq.getText();
+            String cash1=cash.getText();
+            if(a.isDoublePrice(other.getText())){
+                String others = other.getText();
+
+            SimpleDateFormat d = new SimpleDateFormat("yyyy-MM-dd");
+            if(dateValidation()){
+                String da = d.format(date.getDate());
+
+                try {
+
+                    String sql = "INSERT INTO cashmng ( date,chqPay,cashbillPay,other) VALUES ( '" + da + "','"+chq1+"','"+cash1+"' ,'" + others + "')";
+                    ps = ct.prepareStatement(sql);
+                    ps.execute();
+
+                    JOptionPane.showMessageDialog(null, "Add Succesful");
+
+                    tabled();
+                    clear();
+
+                } catch (Exception e) {
+
+                    System.out.println(e);
+
+                    JOptionPane.showMessageDialog(null, "Records are incomplete. \nConnot add this records.");
+
+                }}}
+                fillcombo1();
+
+    }//GEN-LAST:event_addActionPerformed
+
+    private void clear1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clear1ActionPerformed
+        // TODO add your handling code here:
+        clear();
+    }//GEN-LAST:event_clear1ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+
+        Date d = new Date ();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String da = sdf.format(d);
+
+        //System.out.println(da);
+
+        try{
+            String sql ="Select chqPay,cashBillPay,other from cashmng where date= '"+ da +"'";
+            ps = ct.prepareStatement(sql);
+            rs = ps.executeQuery();
+            if(rs.next()){
+                double s1 = Double.parseDouble(rs.getString(1));
+                double s2 = Double.parseDouble(rs.getString(2));
+                double s3 = Double.parseDouble(rs.getString(3));
+
+                double total = s1+ s2+s3;
+                System.out.println(Double.toString(total));
+                String tot = Double.toString(total);
+                String type ="out";
+
+                String sql1="Insert into cash(date,amt,type) values ('"+ da +"','"+ tot +"','"+ type +"')";
+                ps = ct.prepareStatement(sql1);
+                ps.execute();
+                tabled1();
+
+                //System.out.println(s1+"");
+            }
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
+        fillcombo2();
+
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void tcidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tcidActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tcidActionPerformed
+
+    private void idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idActionPerformed
+        // TODO add your handling code here:
+
+        int x = JOptionPane.showConfirmDialog ( null, "Do you really want to delete?" );
+
+        if ( x==0 ) {
+
+            String ID = tcid.getSelectedItem().toString();
+
+            try {
+
+                String sql = "DELETE FROM cash WHERE cashId = '"+ ID+"' ";
+                ps = ct.prepareStatement ( sql );
+                ps.execute ();
+
+                //                sql = "DELETE FROM login WHERE Username = '"+ sid +"' ";
+                //                ps = ct.prepareStatement ( sql );
+                //                ps.execute ();
+
+                tcid.removeItem(ID);
+                JOptionPane.showMessageDialog ( null, "Delete Succesful" );
+
+                tabled1();
+
+            }
+
+            catch ( Exception e ) {
+
+                JOptionPane.showMessageDialog ( null, "Invalid Records. \nConnot delete." );
+
+                System.out.println ( e );
+
+            }
+        }
+    }//GEN-LAST:event_idActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+
+        Date d = new Date ();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String da = sdf.format(d);
+
+        try{
+            String sql ="SELECT a.Item_Code,SUM(a.sales_qty),a.Expiry_Date,j.Sales_Price FROM sales a,sales_stock j WHERE a.sales_date='"+da+"' AND j.Item_Code=a.Item_Code GROUP BY a.Item_code, a.Expiry_Date,j.Sales_Price";
+            ps = ct.prepareStatement(sql);
+            rs = ps.executeQuery();
+            double tot =0;
+            while(rs.next()){
+                String s1 = rs.getString(1);
+                //System.out.println(s1);
+                int s2 = Integer.parseInt(rs.getString(2));
+                String s3 = rs.getString(3);
+                System.out.println(s3);
+                System.out.println(s1);
+                
+                 s4 = Double.parseDouble(rs.getString(4));
+                //x1=Integer.toString(s2);
+                System.out.println(s4);
+                
+                
+                double Total = s2*s4;
+
+                tot =tot+Total;
+            }
+            // String a = Double.toString(tot);
+            //System.out.println(a);
+            String type ="in";
+
+            String sql1="Insert into cash(date,amt,type) values ('"+ da +"','"+ tot +"','"+ type +"')";
+            ps = ct.prepareStatement(sql1);
+            ps.execute();
+            totSal.setText(Double.toString(tot));
+            tabled1();
+
+        }
+        catch(Exception e){
+            System.out.println ( e );
+
+        }
+
+        fillcombo2();
+
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void add1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add1ActionPerformed
+        // TODO add your handling code here:
+        Accounts a = new Accounts();
+
+        int x = JOptionPane.showConfirmDialog ( null, "Do you really want to update?" );
+
+        if ( x==0 ) {
+            String chq1=chq.getText();
+            String cash1=cash.getText();
+            if(a.isDoublePrice(other.getText())){
+                String others = other.getText();
+
+            SimpleDateFormat d = new SimpleDateFormat("yyyy-MM-dd");
+            if(dateValidation()){
+                String da = d.format(date.getDate());
+                
+            try {
+
+                                    String sql = "UPDATE cashmng SET date = '"+ da +"', chqPay = '"+ chq1 +"', cashbillPay = '"+ cash1 +"', other = '"+ others +"' WHERE cashId = '"+ cid1 +"' ";
+                                    ps = ct.prepareStatement ( sql );
+                                    ps.execute ();
+
+                                    JOptionPane.showMessageDialog ( null, "Update Succesful" );
+                                    clear();
+                                    tabled();
+
+                                }
+
+                                catch ( Exception e ) {
+
+                                    System.out.println ( e );
+
+                                    JOptionPane.showMessageDialog ( null, "Invalid Records. \nConnot update." );
+
+                                }
+        }}}
+        
+    }//GEN-LAST:event_add1ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        int r = jTable1.getSelectedRow ();
+        cid1 = jTable1.getValueAt ( r, 0).toString ();
+        String date1 = jTable1.getValueAt ( r, 1 ).toString ();
+        String chq1 = jTable1.getValueAt ( r, 2 ).toString ();
+        String cash1 = jTable1.getValueAt ( r, 3 ).toString ();
+        String other1 = jTable1.getValueAt ( r, 4 ).toString ();
+        
+        chq.setText(chq1);
+        cash.setText ( cash1 );
+        other.setText ( other1 );
+        ((JTextField)date.getDateEditor().getUiComponent()).setText (date1);
+        
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        // TODO add your handling code here:
+        Accounts a = new Accounts();
+        
+    }//GEN-LAST:event_jButton1MouseClicked
+
+    private void otherKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_otherKeyTyped
+        // TODO add your handling code here:
+        Accounts a = new Accounts();
+        Accounts a2 = new Accounts();
+        char c = evt.getKeyChar();
+         String x = Character.toString(c);
+         if(!(a2.isOtherAmount(x)||(c==KeyEvent.VK_BACK_SPACE)||(c==KeyEvent.VK_DELETE))){
+             getToolkit().beep();
+             other.setBorder(BorderFactory.createLineBorder(Color.red));
+             JOptionPane.showMessageDialog(null, "Other Number format invalid it's should be Digits only ");
+             evt.consume();
+         }
+         other.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+    }//GEN-LAST:event_otherKeyTyped
+
+    private void remove2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_remove2ActionPerformed
+        // TODO add your handling code here:
+        String report1="C:\\ireportsNew\\cashmng.jasper" ;
+
+        try {
+            MyReport(report1,null);
+        }
+        catch (SQLException | JRException ex) {
+        }
+    }//GEN-LAST:event_remove2ActionPerformed
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Customer;
+    private javax.swing.JDesktopPane IHome;
+    private javax.swing.JButton Logout;
+    private javax.swing.JButton Register;
+    private javax.swing.JButton Register1;
+    private javax.swing.JButton Register2;
+    private javax.swing.JButton Register3;
+    private javax.swing.JButton add;
+    private javax.swing.JButton add1;
+    private javax.swing.JLabel cash;
+    private javax.swing.JLabel chq;
+    private javax.swing.JComboBox<String> cid;
+    private javax.swing.JButton clear1;
+    private com.toedter.calendar.JDateChooser date;
+    private javax.swing.JButton id;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JSeparator jSeparator5;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JTextField other;
+    private javax.swing.JButton remove1;
+    private javax.swing.JButton remove2;
+    private javax.swing.JComboBox<String> tcid;
+    private javax.swing.JLabel totSal;
+    // End of variables declaration//GEN-END:variables
+}

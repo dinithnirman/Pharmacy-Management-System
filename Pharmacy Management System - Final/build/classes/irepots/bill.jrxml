@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0edcbe98-e22c-4928-970e-280267e48f3a">
+	<property name="ireport.zoom" value="1.1"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="PieChartDataset" uuid="4fcd72e3-8fb7-43b9-88a6-2a00e5fd2003"/>
+	<parameter name="saleid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select * from sales s ,pharma_items p,sales_stock ss where s.Item_code = p.i_Id and ss.Item_code=p.I_id and s.Stock_Type = ss.Stock_Type and s.sales_id = $P{saleid}]]>
+	</queryString>
+	<field name="sales_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Item_code" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sales_qty" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sales_date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Stock_Type" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="I_id" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="brandName" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="type" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="profitMargin" class="java.lang.Float">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="reOrder_level" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Quantity" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Supplier_ID" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Price" class="java.lang.Float">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Expiry_Date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Receive_Date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Sales_Price" class="java.lang.Float">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="total" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{Sales_Price}*$F{sales_qty}]]></variableExpression>
+	</variable>
+	<background>
+		<band height="555" splitType="Stretch">
+			<image>
+				<reportElement x="618" y="-22" width="206" height="114" uuid="354a5e3a-dea2-4d60-94e3-e432f9fc10d2"/>
+				<imageExpression><![CDATA["C:\\Users\\AAA\\Desktop\\ITP Procet\\Pharmacy Management System\\src\\irepots\\flower1.png"]]></imageExpression>
+			</image>
+		</band>
+	</background>
+	<title>
+		<band height="94" splitType="Stretch">
+			<staticText>
+				<reportElement style="SubTitle" x="336" y="65" width="449" height="29" uuid="c7218c67-d85f-46cf-ac74-8f971f43476e"/>
+				<textElement textAlignment="Right">
+					<font size="22" isBold="false"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="4" y="37" width="95" height="14" forecolor="#000000" uuid="f88ad6fb-2d1d-4398-ae70-eea0fa2f204f"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Sales Date :]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="yyyy/MM/dd" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="99" y="37" width="95" height="14" uuid="b8a2298f-b15e-47f5-a859-cccb51d09965"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sales_date}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="49" splitType="Stretch">
+			<frame>
+				<reportElement x="227" y="0" width="575" height="14" uuid="1a426b21-e112-4f7d-88bf-45b9539020e3"/>
+			</frame>
+			<frame>
+				<reportElement x="227" y="30" width="575" height="14" uuid="73855284-5643-4d09-904c-4d8cb87fe449"/>
+			</frame>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="60" y="14" width="95" height="14" forecolor="#000000" uuid="2b202ccf-121b-4550-92d7-88f45434334b"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Item Code]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="336" y="14" width="95" height="14" forecolor="#000000" uuid="1cf3ab34-9caf-4b1f-b779-7739b7c19597"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Unit Price]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="194" y="16" width="95" height="14" forecolor="#000000" uuid="0211f8c7-3415-43de-b328-8f9baed43c9e"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Brand Name]]></text>
+			</staticText>
+			<line>
+				<reportElement x="4" y="30" width="771" height="1" uuid="768e5e03-b159-4d5e-bb95-4d33188ec470"/>
+			</line>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="482" y="14" width="95" height="14" forecolor="#000000" uuid="e88e2a65-8aa8-4752-b6d3-447bda993c28"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Sales Quanity]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="638" y="14" width="100" height="20" isPrintInFirstWholeBand="true" uuid="d7804d5d-8056-470b-b5d6-5d24cc499501"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="23" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="60" y="3" width="95" height="14" uuid="2dfed7e8-dbb6-4314-ae63-340edce9c0e5"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Item_code}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="Rs#,##0.00" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="194" y="3" width="95" height="14" uuid="85310005-4452-4338-be22-9df6e775c520"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{brandName}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="482" y="3" width="95" height="14" uuid="2f41c7b1-2e8c-4263-a501-d87792f1363b"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sales_qty}]]></textFieldExpression>
+			</textField>
+			<textField pattern="₨ #,##0.00">
+				<reportElement x="336" y="3" width="100" height="20" uuid="ae44e58f-b79e-4fda-a602-04b1e9bad93c"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Sales_Price}.doubleValue()]]></textFieldExpression>
+			</textField>
+			<textField pattern="₨ #,##0.00">
+				<reportElement x="638" y="3" width="100" height="20" uuid="2393fc84-8bcb-4df2-8c8e-fb1ca33a1be6"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Sales_Price}*$F{sales_qty}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="87" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="4" y="71" width="800" height="16" forecolor="#D0B48E" backcolor="#006699" uuid="492a4474-4751-4868-922b-adf49660b20e"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="753" y="0" width="40" height="16" forecolor="#FFFFFF" uuid="8a5435d8-df29-4213-9c54-dfda355f508f"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="673" y="0" width="80" height="16" forecolor="#FFFFFF" uuid="cf86dbc7-abb5-4eef-9f20-21db73e9c5e6"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="2" y="0" width="197" height="16" forecolor="#FFFFFF" uuid="e6c9bb3a-064d-41e2-9bfc-1c34bd025f22"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+			<staticText>
+				<reportElement x="482" y="0" width="100" height="20" uuid="d8bce70b-2954-4fee-aa98-d91b51f1e5ee"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<textField pattern="₨ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="638" y="0" width="100" height="20" uuid="150a1ad6-327e-447a-b411-d8aee0c7de8e"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

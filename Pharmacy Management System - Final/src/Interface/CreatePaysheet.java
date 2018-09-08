@@ -1,0 +1,641 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Interface;
+
+import java.io.File;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import My_Code.DBconnect;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.awt.Desktop;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import javax.swing.JFileChooser;
+import javax.swing.JTextField;
+//import com.itextpdf.text.pdf.*;
+import net.proteanit.sql.DbUtils;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.Font;
+import java.util.Date;
+import Validation.Employee;
+//import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author MAXMO
+ */
+
+public class CreatePaysheet extends javax.swing.JInternalFrame {
+
+    /**
+     * Creates new form CreatePaysheet
+     */
+    
+    Connection con = null;
+    PreparedStatement pst = null;
+    ResultSet rs = null;
+    
+    String sql;
+    String m;
+    String p;
+    public static  String id;
+    public static String name;
+    public static String month;
+    public static String designation;
+    public static String basicSalary;
+    public static String totSal;
+    public static String ot;
+    public static String epf;
+    public static String etf;
+    public static String other;
+    public static String allowances;
+    public static String date;
+    public static String pid;
+    String pid_;
+    String pId;
+    String month_;
+    //String w;
+    //int i1=1;
+    //String e="";
+    public CreatePaysheet() {
+        initComponents();
+        
+        con = DBconnect.connect();
+        tableload ();
+        //fillcombo ();
+    }
+    
+    public void clear(){
+        Month.setSelectedItem ( "Select Month" );
+        //Date.setDate( null );
+        Pid.setText("");
+        Pid1.setText("");
+    }
+    /*public void fillcombo () {
+        
+        try {
+            
+            sql = "SELECT * FROM paysheet";
+            pst = con.prepareStatement ( sql );
+            rs = pst.executeQuery ();
+            
+            while ( rs.next ()) {
+                
+                p = rs.getString ( "Month" );
+                Month.addItem ( p );
+                
+            }
+        }
+        
+        catch ( Exception e ) {
+            
+            System.out.println ( e );
+            
+            JOptionPane.showMessageDialog ( null, "Records are incomplete. \nConnot add this records." );
+            
+        }
+    }*/
+    
+    /*public boolean dateValidation(){
+        if(((JTextField)Date.getDateEditor().getUiComponent()).getText().isEmpty())
+        {
+            JOptionPane.showMessageDialog(null, "Enter Date");
+            return false;
+        } else {
+            return true;
+        }
+    }*/
+    
+     public void labelload () {
+    
+    try {
+        
+        sql = "SELECT e.Id, e.Name, e.Designation,  s.Month, s.Allowances, s.Total_Salary, sd.Basic_Salary, s.OT_Charge, s.Epf, s.Etf, s.Other FROM salary s, employee e, salary_details sd WHERE e.Designation = sd. Designation AND s.Employee_Id = e.Id ";
+        pst = con.prepareStatement ( sql );
+        rs = pst.executeQuery ();
+    
+        while ( rs.next ()) {
+                
+            id = rs.getString(1);
+            
+            name = rs.getString(2);
+            designation = rs.getString(3);
+            month = rs.getString(4);
+            allowances = rs.getString(5);
+            totSal = rs.getString(6);
+            basicSalary = rs.getString(7);
+            ot = rs.getString(8);
+            epf = rs.getString(9);
+            etf = rs.getString(10);
+            other = rs.getString(11);
+            
+            //doc.add(new Paragraph(" Id Number : "+id))
+    
+        }
+    }
+    
+    catch ( Exception e ){
+    
+        System.out.println ( e );
+    }
+}
+
+    public void tableload () {
+        
+        try {
+            
+            sql = "SELECT p.Paysheet_Id, p.Month, p.Date, pd.Employee_Id FROM paysheet p, paysheetdetails pd where p.Paysheet_Id = pd.Paysheet_Id";
+            pst = con.prepareStatement ( sql );
+            rs = pst.executeQuery ();
+            
+            paysheet.setModel ( DbUtils.resultSetToTableModel ( rs ));
+          
+        } 
+        
+        catch ( Exception e ) {
+            
+            System.out.println ( e );
+            
+        }
+    }
+    
+    
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel1 = new javax.swing.JPanel();
+        jLabel20 = new javax.swing.JLabel();
+        jLabel75 = new javax.swing.JLabel();
+        Month = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        paysheet = new javax.swing.JTable();
+        jButton8 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
+        Pid = new javax.swing.JLabel();
+        Pid1 = new javax.swing.JLabel();
+        jButton5 = new javax.swing.JButton();
+
+        setBorder(null);
+        setPreferredSize(new java.awt.Dimension(1080, 640));
+
+        jPanel1.setBackground(new java.awt.Color(215, 215, 230));
+
+        jLabel20.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel20.setText("Create Paysheet");
+
+        jLabel75.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel75.setText("Month");
+
+        Month.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        Month.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Month", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" }));
+        Month.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MonthActionPerformed(evt);
+            }
+        });
+
+        paysheet.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Paysheet Id", "Month", "Date", "Employee Id"
+            }
+        ));
+        paysheet.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                paysheetMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(paysheet);
+
+        jButton8.setBackground(new java.awt.Color(85, 55, 118));
+        jButton8.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        jButton8.setForeground(new java.awt.Color(255, 255, 255));
+        jButton8.setText("Create");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
+        jButton9.setBackground(new java.awt.Color(85, 55, 118));
+        jButton9.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        jButton9.setForeground(new java.awt.Color(255, 255, 255));
+        jButton9.setText("View Paysheets");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+
+        jButton10.setBackground(new java.awt.Color(85, 55, 118));
+        jButton10.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        jButton10.setForeground(new java.awt.Color(255, 255, 255));
+        jButton10.setText("Delete");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+
+        Pid.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
+        Pid1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
+        jButton5.setBackground(new java.awt.Color(85, 55, 118));
+        jButton5.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        jButton5.setForeground(new java.awt.Color(255, 255, 255));
+        jButton5.setText("Clear");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(53, 53, 53)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel20)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel75, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(83, 83, 83)
+                                .addComponent(Month, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton9)
+                            .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(Pid1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(Pid, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 547, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(60, Short.MAX_VALUE)
+                .addComponent(jLabel20)
+                .addGap(74, 74, 74)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel75)
+                                    .addComponent(Month, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(31, 31, 31)
+                                .addComponent(Pid1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(Pid, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton8)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton10)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton5)
+                        .addGap(16, 16, 16)))
+                .addComponent(jButton9)
+                .addGap(249, 249, 249))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void MonthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MonthActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_MonthActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+        //id = Id.getSelectedItem().toString();
+        Employee E = new Employee();
+        try {
+            if(E.MonthValidation(Month.getSelectedItem().toString())){
+                month = Month.getSelectedItem().toString();
+            /*SimpleDateFormat dformat = new SimpleDateFormat("yyyy-MM-dd");
+            //if(dateValidation()){
+                date = dformat.format(Date.getDate());*/
+
+        Date d = new Date ();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        date = sdf.format(d);    
+        String [] dateParts = date.split("-");
+        String month1 = dateParts[1];
+                String month12 = null;
+        int num = Integer.parseInt(month1);
+        switch (num)
+        {
+        case 1:
+            month12 = "January";
+            break;
+        case 2:
+            month12 = "February";
+            break;
+        case 3:
+            month12 = "March";
+            break;
+        case 4:
+            month12 = "April";
+            break;
+        case 5:
+            month12 = "May";
+            break;
+        case 6:
+            month12 = "June";
+            break;
+        case 7:
+            month12 = "July";
+            break;
+        case 8:
+            month12 = "August";
+            break;
+        case 9:
+            month12 = "September";
+            break;
+        case 10:
+            month12 = "October";
+            break;
+        case 11:
+            month12 = "November";
+            break;
+        case 12:
+            month12 = "December";
+            break;
+        //default:
+        //    System.out.println ("You have entered an invalid number");
+        }
+            sql = "Insert into paysheet(Month,Date) values ('"+ month +"','"+ date +"') ";
+            pst = con.prepareStatement ( sql );
+            pst.execute();
+            
+            String sql1 = "Select Paysheet_Id from paysheet where Month = '"+ month+"'";
+            pst = con.prepareStatement ( sql1 );
+            rs = pst.executeQuery ();
+            
+            
+            while ( rs.next ()) {
+                pId = rs.getString(1);
+            }
+                String sql2 = "select Employee_Id from salary where Month='"+ month12 +"'";
+                pst = con.prepareStatement(sql2);
+                rs = pst.executeQuery();
+                while(rs.next()){
+                    String Id1 = rs.getString(1);
+                    //System.out.println(pId);
+                    
+                    String sql3 = "Insert into paysheetdetails (Paysheet_Id,Employee_Id) values ('"+ pId +"','"+ Id1 +"')";
+                    pst = con.prepareStatement ( sql3 );
+                    pst.execute();
+                    
+                }
+                tableload();
+                JOptionPane.showMessageDialog ( null, "Create successfully." );
+                
+            }
+        }
+
+        catch ( Exception e ) {
+
+            JOptionPane.showMessageDialog ( null, "Invalid Id." );
+
+            System.out.println ( e );
+
+        }
+        
+            
+        
+        try {
+             
+                    String month1=Month.getSelectedItem().toString();
+                    
+                    sql = "SELECT s.Employee_Id, e.Name, e.Designation,  s.Month, s.Allowances, s.Total_Salary, sd.Basic_Salary, s.OT_Charge, s.Epf, s.Etf, s.Other FROM salary s, employee e, salary_details sd WHERE e.Designation = sd. Designation AND s.Employee_Id = e.Id AND s.Month='"+ month1 +"'";
+                    pst = con.prepareStatement ( sql );
+                    rs = pst.executeQuery ();
+     
+                    while ( rs.next ()) {
+                        String idx = rs.getString("s.Employee_Id");
+                
+                        FileOutputStream out = new FileOutputStream(new File("C:\\Paysheets\\paysheet"+idx+"."+month1+".pdf"));
+                        Document doc = new Document();
+                        PdfWriter wr = PdfWriter.getInstance(doc, out);
+                        PdfPTable tab = new PdfPTable(5);
+                        PdfPCell cel;
+                        doc.open ();
+                
+                        
+                        BaseFont b = BaseFont.createFont(BaseFont.TIMES_ROMAN,BaseFont.CP1252,BaseFont.EMBEDDED);
+                        Font f = new Font(b,20);
+                        
+                        BaseFont b1 = BaseFont.createFont(BaseFont.TIMES_ROMAN,BaseFont.CP1252,BaseFont.EMBEDDED);
+                        Font f1 = new Font(b1,13);
+                        
+                        id = rs.getString(1);
+                        name = rs.getString(2);
+                        designation = rs.getString(3);
+                        month_ = rs.getString(4);
+                        allowances = rs.getString(5);
+                        totSal = rs.getString(6);
+                        basicSalary = rs.getString(7);
+                        ot = rs.getString(8);
+                        epf = rs.getString(9);
+                        etf = rs.getString(10);
+                        other = rs.getString(11);
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                        Date d = new Date();
+                        String date = sdf.format(d);
+                        
+                                              
+                        doc.add(new Paragraph("Paysheet",f));
+                        doc.add(new Paragraph("\n",f));
+                        doc.add(new Paragraph("Date                        :  "+date,f1));
+                        doc.add(new Paragraph("Employee Id           :   "+id,f1));
+                        doc.add(new Paragraph("Name                      :   "+name,f1));
+                        doc.add(new Paragraph("Designation            :   "+designation,f1));
+                        doc.add(new Paragraph("Month                     :   "+month_,f1));
+                        doc.add(new Paragraph("Allowances             :   "+allowances,f1));
+                        doc.add(new Paragraph("Basic salary            :   "+basicSalary,f1));
+                        doc.add(new Paragraph("OT Charges            :    "+ot,f1));
+                        doc.add(new Paragraph("Epf                          :   "+epf,f1));
+                        doc.add(new Paragraph("Etf                           :   "+etf,f1));
+                        doc.add(new Paragraph("Other                       :   "+other,f1));
+                        
+                        doc.close();
+            
+                    }
+                    clear();
+                } 
+         
+                catch (Exception e) {
+                    System.out.println(e);
+                }
+        
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        // TODO add your handling code here:
+        /*JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File(System.getProperty("C:\\Users\\AAA\\Desktop\\Paysheets")));*/
+        if(Desktop.isDesktopSupported()){
+            try{
+                File myFile = new File("C:\\Paysheets"); 
+                Desktop.getDesktop().open(myFile);
+            }
+            catch(Exception e){
+                System.out.println(e);
+            }
+        }
+        
+        //labelload ();
+        
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        // TODO add your handling code here:
+        int x = JOptionPane.showConfirmDialog ( null, "Do you really want to delete?" );
+
+        if ( x==0 ) {
+
+            SimpleDateFormat dformat = new SimpleDateFormat("yyyy-MM-dd");
+            //date = dformat.format(Date.getDate());
+            month = Month.getSelectedItem().toString();
+             System.out.println(date);
+              System.out.println(month);
+            String pid = Pid.getText(); 
+           
+            try {
+                String sql2 = "SELECT Employee_Id from paysheetdetails WHERE Paysheet_Id='"+ pid +"'";
+                    pst = con.prepareStatement ( sql2 );
+                    rs = pst.executeQuery ();
+     
+                    while ( rs.next ()) {
+                        String idx = rs.getString(1);
+                
+                        File file = new File("C:\\Paysheets\\paysheet"+idx+"."+month+".pdf");
+                        file.delete();
+                        
+            }
+                sql = "DELETE FROM paysheetdetails WHERE Paysheet_Id = '"+ pid +"' ";
+                pst = con.prepareStatement ( sql );
+                pst.execute ();
+                
+                String sql1 = "DELETE FROM paysheet WHERE Paysheet_Id = '"+ pid +"' ";
+                pst = con.prepareStatement ( sql1 );
+                pst.execute ();
+                
+                JOptionPane.showMessageDialog ( null, "Delete Succesful" );
+
+                tableload ();
+                clear();
+                
+                }
+
+            catch ( Exception e ) {
+
+                JOptionPane.showMessageDialog ( null, "Invalid Records. \nConnot delete." );
+
+                System.out.println ( e );
+
+            }
+            
+        }
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void paysheetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paysheetMouseClicked
+        // TODO add your handling code here:
+        int r = paysheet.getSelectedRow ();
+
+        pid_ = paysheet.getValueAt ( r, 0 ).toString ();
+        month = paysheet.getValueAt ( r, 1 ).toString ();
+        date = paysheet.getValueAt ( r, 2 ).toString ();
+        id = paysheet.getValueAt ( r, 3 ).toString ();
+        Pid1.setText("Paysheet Id");
+        Pid.setText ( pid_ );
+        //((JTextField)Date.getDateEditor().getUiComponent()).setText (date);
+        Month.setSelectedItem ( month );
+       
+        
+    }//GEN-LAST:event_paysheetMouseClicked
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        clear();
+        
+
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> Month;
+    private javax.swing.JLabel Pid;
+    private javax.swing.JLabel Pid1;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel75;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable paysheet;
+    // End of variables declaration//GEN-END:variables
+
+    private static class jTextFieldPath {
+
+        private static String getText() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        public jTextFieldPath() {
+        }
+    }
+
+    
+}
